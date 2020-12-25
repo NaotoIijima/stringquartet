@@ -45,7 +45,7 @@ var CrossfadeSample = function() {
   this.isPlaying = false;
 }
 
-CrossfadeSample.prototype.play = function() {
+CrossfadeSample.prototype.play = function(element,position) {
   // Create two sources.
   this.ctl1 = createSource(this.sig0);
   this.ctl2 = createSource(this.sig45);
@@ -74,32 +74,128 @@ CrossfadeSample.prototype.play = function() {
   this.ctl23 = createSource(this.sig_90_b);
   this.ctl24 = createSource(this.sig_45_b);
 
-  // Mute the second source.
-  this.ctl2.gainNode.gain.value = 0;
-  this.ctl3.gainNode.gain.value = 0;
-  this.ctl4.gainNode.gain.value = 0;
-  this.ctl5.gainNode.gain.value = 0;
-  this.ctl6.gainNode.gain.value = 0;
-  this.ctl7.gainNode.gain.value = 0;
-  this.ctl8.gainNode.gain.value = 0;
 
-  this.ctl9.gainNode.gain.value = 0;
-  this.ctl10.gainNode.gain.value = 0;
-  this.ctl11.gainNode.gain.value = 0;
-  this.ctl12.gainNode.gain.value = 0;
-  this.ctl13.gainNode.gain.value = 0;
-  this.ctl14.gainNode.gain.value = 0;
-  this.ctl15.gainNode.gain.value = 0;
-  this.ctl16.gainNode.gain.value = 0;
-
-  this.ctl17.gainNode.gain.value = 0;
-  this.ctl18.gainNode.gain.value = 0;
-  this.ctl19.gainNode.gain.value = 0;
-  this.ctl20.gainNode.gain.value = 0;
-  this.ctl21.gainNode.gain.value = 0;
-  this.ctl22.gainNode.gain.value = 0;
-  this.ctl23.gainNode.gain.value = 0;
-  this.ctl24.gainNode.gain.value = 0;
+  var gain1 = 0;
+  var gain2 = 0;
+  var gain3 = 0;
+  var gain4 = 0;
+  var gain5 = 0;
+  var gain6 = 0;
+  var gain7 = 0;
+  var gain8 = 0;
+  var k = element % 360;
+  if(k > 180){
+    element = -180 + k%180;
+  }else if(k <-180){
+    element = 180 + k%180;
+  }
+  element = element%180;
+  //console.log(element);
+  if(0<=element && element < 45){
+    gain1 = Math.cos(element/45.0 * 0.5*Math.PI);
+    gain2 = Math.cos((1.0 - element/45.0) * 0.5*Math.PI);
+  }else if(45<=element && element < 90){
+    gain2 = Math.cos((element-45)/45.0 * 0.5*Math.PI);
+    gain3 = Math.cos((1.0 - (element-45)/45.0) * 0.5*Math.PI);
+  }else if(90<=element && element < 135){
+    gain3 = Math.cos((element-90)/45.0 * 0.5*Math.PI);
+    gain4 = Math.cos((1.0 - (element-90)/45.0) * 0.5*Math.PI);
+  }else if(135<=element && element < 180){
+    gain4 = Math.cos((element-135)/45.0 * 0.5*Math.PI);
+    gain5 = Math.cos((1.0 - (element-135)/45.0) * 0.5*Math.PI);
+  }else if(-45<=element && element < 0){
+    gain8 = Math.cos((element+45)/45.0 * 0.5*Math.PI);
+    gain1 = Math.cos((1.0 - (element+45)/45.0) * 0.5*Math.PI);
+  }else if(-90<=element && element < -45){
+    gain7 = Math.cos((element+90)/45.0 * 0.5*Math.PI);
+    gain8 = Math.cos((1.0 - (element+90)/45.0) * 0.5*Math.PI);
+  }else if(-135<=element && element < -90){
+    gain6 = Math.cos((element+135)/45.0 * 0.5*Math.PI);
+    gain7 = Math.cos((1.0 - (element+135)/45.0) * 0.5*Math.PI);
+  }else if(-180<element && element < -135){
+    gain5 = Math.cos((element+180)/45.0 * 0.5*Math.PI);
+    gain6 = Math.cos((1.0 - (element+180)/45.0) * 0.5*Math.PI);
+  }
+  // Use an equal-power crossfading curve:
+  //var gain1 = Math.cos(x * 0.5*Math.PI);
+  //var gain2 = Math.cos((1.0 - x) * 0.5*Math.PI);
+  if(position == "1"){
+    this.ctl1.gainNode.gain.value = gain1;
+    this.ctl2.gainNode.gain.value = gain2;
+    this.ctl3.gainNode.gain.value = gain3;
+    this.ctl4.gainNode.gain.value = gain4;
+    this.ctl5.gainNode.gain.value = gain5;
+    this.ctl6.gainNode.gain.value = gain6;
+    this.ctl7.gainNode.gain.value = gain7;
+    this.ctl8.gainNode.gain.value = gain8;
+    this.ctl9.gainNode.gain.value = 0;
+    this.ctl10.gainNode.gain.value = 0;
+    this.ctl11.gainNode.gain.value = 0;
+    this.ctl12.gainNode.gain.value = 0;
+    this.ctl13.gainNode.gain.value = 0;
+    this.ctl14.gainNode.gain.value = 0;
+    this.ctl15.gainNode.gain.value = 0;
+    this.ctl16.gainNode.gain.value = 0;
+    this.ctl17.gainNode.gain.value = 0;
+    this.ctl18.gainNode.gain.value = 0;
+    this.ctl19.gainNode.gain.value = 0;
+    this.ctl20.gainNode.gain.value = 0;
+    this.ctl21.gainNode.gain.value = 0;
+    this.ctl22.gainNode.gain.value = 0;
+    this.ctl23.gainNode.gain.value = 0;
+    this.ctl24.gainNode.gain.value = 0;
+  }else if(position == "2"){
+    this.ctl1.gainNode.gain.value = 0;
+    this.ctl2.gainNode.gain.value = 0;
+    this.ctl3.gainNode.gain.value = 0;
+    this.ctl4.gainNode.gain.value = 0;
+    this.ctl5.gainNode.gain.value = 0;
+    this.ctl6.gainNode.gain.value = 0;
+    this.ctl7.gainNode.gain.value = 0;
+    this.ctl8.gainNode.gain.value = 0;
+    this.ctl9.gainNode.gain.value = gain1;
+    this.ctl10.gainNode.gain.value = gain2;
+    this.ctl11.gainNode.gain.value = gain3;
+    this.ctl12.gainNode.gain.value = gain4;
+    this.ctl13.gainNode.gain.value = gain5;
+    this.ctl14.gainNode.gain.value = gain6;
+    this.ctl15.gainNode.gain.value = gain7;
+    this.ctl16.gainNode.gain.value = gain8;
+    this.ctl17.gainNode.gain.value = 0;
+    this.ctl18.gainNode.gain.value = 0;
+    this.ctl19.gainNode.gain.value = 0;
+    this.ctl20.gainNode.gain.value = 0;
+    this.ctl21.gainNode.gain.value = 0;
+    this.ctl22.gainNode.gain.value = 0;
+    this.ctl23.gainNode.gain.value = 0;
+    this.ctl24.gainNode.gain.value = 0;
+  }else if(position == "3"){
+    this.ctl1.gainNode.gain.value = 0;
+    this.ctl2.gainNode.gain.value = 0;
+    this.ctl3.gainNode.gain.value = 0;
+    this.ctl4.gainNode.gain.value = 0;
+    this.ctl5.gainNode.gain.value = 0;
+    this.ctl6.gainNode.gain.value = 0;
+    this.ctl7.gainNode.gain.value = 0;
+    this.ctl8.gainNode.gain.value = 0;
+    this.ctl9.gainNode.gain.value = 0;
+    this.ctl10.gainNode.gain.value = 0;
+    this.ctl11.gainNode.gain.value = 0;
+    this.ctl12.gainNode.gain.value = 0;
+    this.ctl13.gainNode.gain.value = 0;
+    this.ctl14.gainNode.gain.value = 0;
+    this.ctl15.gainNode.gain.value = 0;
+    this.ctl16.gainNode.gain.value = 0;
+    this.ctl17.gainNode.gain.value = gain1;
+    this.ctl18.gainNode.gain.value = gain2;
+    this.ctl19.gainNode.gain.value = gain3;
+    this.ctl20.gainNode.gain.value = gain4;
+    this.ctl21.gainNode.gain.value = gain5;
+    this.ctl22.gainNode.gain.value = gain6;
+    this.ctl23.gainNode.gain.value = gain7;
+    this.ctl24.gainNode.gain.value = gain8;
+  }
+ 
 
   // Start playback in a loop
   var onName = this.ctl1.source.start ? 'start' : 'noteOn';
@@ -131,7 +227,7 @@ CrossfadeSample.prototype.play = function() {
   this.ctl24.source[onName](0);
 
   // Set the initial crossfade to be just source 1.
-  this.crossfade(0);
+  this.crossfade(element,position);
 
   function createSource(buffer) {
     var source = context.createBufferSource();
@@ -361,6 +457,9 @@ CrossfadeSample.prototype.crossfade = function(element,position) {
 };
 
 CrossfadeSample.prototype.toggle = function() {
-  this.isPlaying ? this.stop() : this.play();
+  var camera = document.getElementById('camera');
+  var rotation = camera.getAttribute('rotation');
+  var position = document.getElementById('pos');
+  this.isPlaying ? this.stop() : this.play(rotation.y,position.value);
   this.isPlaying = !this.isPlaying;
 };
