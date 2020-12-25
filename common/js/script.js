@@ -34,8 +34,13 @@ function movieRewind(){
     var time = 0; // 先頭の秒数にする
     sample.stop();
     document.getElementById("video").currentTime = time;
-    document.getElementById("video2").currentTime = time;   
-    sample.play();
+    document.getElementById("video2").currentTime = time; 
+    document.getElementById("video").play();
+    document.getElementById("video2").play();
+    var camera = document.getElementById('camera');
+    var rotation = camera.getAttribute('rotation');
+    var position = document.getElementById('pos');
+    sample.play(rotation.y,position.value);
     console.log(sample.ctl1.source.context.currentTime);
      
     console.log(document.getElementById("video").currentTime);
