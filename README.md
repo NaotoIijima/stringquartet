@@ -1,2 +1,2 @@
 # stringquartet
-[Page Link](https://naotoiijima.github.io/stringuarter/)
+[Page Link](https://naotoiijima.github.io/stringquartet/)
