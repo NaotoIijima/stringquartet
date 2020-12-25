@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <title>360 Panorama Viewer Demo : A-Frame : Movie</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+  <!-- A-frameの読み込み -->
+  <script src="./common/js/aframe-v0.7.1.min.js"></script>
+  <script src="./common/js/shared.js"></script>
+  <script src="./common/js/crossfade.js"></script>
+  <script src="./common/js/script.js"></script>
+  <script>
+    var sample = new CrossfadeSample();
+    AFRAME.registerComponent('foo',{
+        init:function(){
+            var vid = document.getElementById('video');
+            var vid2 = document.getElementById('video2');
+            document.querySelector('#video').pause();
+            document.querySelector('#video2').pause();
+            console.log("video loading finished!");
+            addEventListener('mousemove', {sample, handleEvent: direction},false);
+            function direction(e) {
+                var camera = document.getElementById('camera');
+                var rotation = camera.getAttribute('rotation');
+                var position = document.getElementById('pos');
+                console.log(rotation.y); 
+                this.sample.crossfade(rotation.y,position.value);
+              }
+            window.addEventListener("click", function(){
+                setTimeout(() => sample.toggle(this), 3000);
+                setTimeout(() => vid.play(), 3000);
+                setTimeout(() => vid2.play(), 3000);
+                //vid.play();
+                //vid2.play();
+                //sample.toggle(this)
+            }, { once: true});
+        }
+    })
+  </script>
+</head>
+<body>
+    <div style="width: 400px;">
+        <div style="display: inline-block;">
+            Listening position: <select id="pos" onchange=render()>
+              <option value="1" selected>A (0 m, 0 m, 0 m)</option>
+              <option value="2">B (0.1 m, 0 m, 0 m)</option>
+              <option value="3">1st order ambisonics</option>
+            </select>
+        </div>
+    </div>
+    <div id="control">
+      <button onclick="moviePause()">一時停止</button>
+      <button onclick="moviePlay()">再開</button>
+      <button onclick="movieRewind()">最初に戻る</button>
+      <span id="movieDuration"></span>
+  </div>
+<!-- シーン -->
+  <!--
+    <a-scene foo>
+    
+  -->
+  <a-scene foo>
+  
+  <!-- 素材 -->
+ 
+  <a-assets>
+    <video id="video"
+           src="./common/videos/music_short.mp4"
+           opacity="1"
+           loop="false"></video>
+    <video id="video2"
+           src="./common/videos/music_short_trans.mp4"
+           opacity="0"
+           loop="false"></video>
+  </a-assets> 
+
+  <a-entity id="camera" camera look-controls wasd-controls>
+    <a-entity cursor="fuse: true;"
+        position="0 0 -1"
+        geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.02"
+        material="color: white; shader: flat">
+        <a-animation begin="click" easing="ease-in" attribute="scale" dur="150"
+           fill="forwards" from="0.1 0.1 0.1" to="1 1 1"></a-animation>
+        <a-animation begin="cursor-fusing" easing="ease-in" attribute="scale" dur="1500"
+           fill="backwards" from="1 1 1" to="0.1 0.1 0.1"></a-animation>
+    </a-entity>
+  </a-entity>
+
+  <!--
+  <a-entity link="href: https://naotoiijima.github.io/demo_sample/sample01/; title: Change Position; image: #nogi" position="0 1.2 -10"></a-entity>
+  -->
+ 
+
+<!--
+  <a-camera raycaster crawling-cursor="target: #cursor"></a-camera>
+  <a-ring cursor id="cursor" look-at="0 0 0" radius-outer="1.2" radius-inner="0.06" color="black" opacity="0.7"></a-ring>
+-->
+  <!-- 全天球背景 -->
+<!--  
+  <a-box color="red" depth="3" height="3" width="3" position="0 -1 -6" href="https://riptutorial.com/aframe/example/30897/register-a-custom-a-frame-component"></a-box>
+ 
+  <a-entity class="link-object" data-link="https://magnets.jp" geometry="primitive: plane; width: 2.5" position="-2 1.5 -2" material="shader: html; target: #element" rotation="0 -2 0"></a-entity>
+-->
+
+<!--
+<a-box color="red" depth="1" height="1" width="1" position="0 -1 -6" ></a-box>
+-->
+
+<!--
+  <a-videosphere src="#video" rotation="0 -90 0" opacity="1"></a-videosphere>
+  <a-videosphere src="#video2" rotation="0 -90 0" opacity="1"></a-videosphere>
+  -->
+
+
+</a-scene>
+<script>
+    var scene = document.querySelector('a-scene');
+    var vid1 = document.createElement('a-videosphere');
+    var vid2 = document.createElement('a-videosphere');
+    vid1.setAttribute('src', '#video');
+    vid1.setAttribute('rotation', '0 -180 0');
+    vid1.setAttribute('opacity', '1');
+    vid2.setAttribute('src', '#video2');
+    vid2.setAttribute('rotation', '0 -180 0');
+    vid2.setAttribute('opacity', '0');
+    scene.appendChild(vid1);
+    scene.appendChild(vid2);
+    //window.addEventListener("click", render);
+    function render() {
+      requestAnimationFrame(render);
+      var opa = document.getElementById('pos');
+      if(opa.value=="1" || opa.value=="3"){
+        vid1.setAttribute('opacity', '1');
+        vid2.setAttribute('opacity', '0');
+      }else if(opa.value=="2"){
+        vid1.setAttribute('opacity', '0');
+        vid2.setAttribute('opacity', '1');
+      }
+    }
+</script>
+
+</body>
+</html>
