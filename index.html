@@ -27,9 +27,9 @@
                 this.sample.crossfade(rotation.y,position.value);
               }
             window.addEventListener("click", function(){
-                setTimeout(() => sample.toggle(this), 3000);
-                setTimeout(() => vid.play(), 3000);
-                setTimeout(() => vid2.play(), 3000);
+                setTimeout(() => sample.toggle(this), 1000);
+                setTimeout(() => vid.play(), 1000);
+                setTimeout(() => vid2.play(), 1000);
                 //vid.play();
                 //vid2.play();
                 //sample.toggle(this)
@@ -49,9 +49,9 @@
         </div>
     </div>
     <div id="control">
-      <button onclick="moviePause()">一時停止</button>
-      <button onclick="moviePlay()">再開</button>
-      <button onclick="movieRewind()">最初に戻る</button>
+      <button onclick="moviePause()">pause</button>
+      <button onclick="moviePlay()">resume</button>
+      <button onclick="movieRewind()">restart</button>
       <span id="movieDuration"></span>
   </div>
 <!-- シーン -->
@@ -65,11 +65,11 @@
  
   <a-assets>
     <video id="video"
-           src="./common/videos/music_short.mp4"
+           src="./common/videos/music_short_fade.mp4"
            opacity="1"
            loop="false"></video>
     <video id="video2"
-           src="./common/videos/music_short_trans.mp4"
+           src="./common/videos/music_short_trans_fade.mp4"
            opacity="0"
            loop="false"></video>
   </a-assets> 
