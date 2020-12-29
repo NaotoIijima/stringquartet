@@ -46,4 +46,8 @@ function movieRewind(){
     console.log(document.getElementById("video").currentTime);
 }
 
-    
+window.onload = function() {
+    var texts = document.getElementById('texts');
+    texts.setAttribute('text', "value: Now loading...\n Don't click now.; color: white; opacity: 0" );
+    console.log("time is coming")
+  }
