@@ -74,7 +74,6 @@ CrossfadeSample.prototype.play = function(element,position) {
   this.ctl23 = createSource(this.sig_90_b);
   this.ctl24 = createSource(this.sig_45_b);
 
-
   var gain1 = 0;
   var gain2 = 0;
   var gain3 = 0;
