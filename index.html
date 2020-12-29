@@ -9,6 +9,7 @@
   <script src="./common/js/shared.js"></script>
   <script src="./common/js/crossfade.js"></script>
   <script src="./common/js/script.js"></script>
+
   <script>
     var sample = new CrossfadeSample();
     AFRAME.registerComponent('foo',{
@@ -26,6 +27,7 @@
                 console.log(rotation.y); 
                 this.sample.crossfade(rotation.y,position.value);
               }
+              
             window.addEventListener("click", function(){
                 setTimeout(() => sample.toggle(this), 1000);
                 setTimeout(() => vid.play(), 1000);
@@ -37,6 +39,7 @@
         }
     })
   </script>
+  
 </head>
 <body>
     <div style="width: 400px;">
@@ -60,9 +63,7 @@
     
   -->
   <a-scene foo>
-  
   <!-- 素材 -->
- 
   <a-assets>
     <video id="video"
            src="./common/videos/music_short_fade.mp4"
@@ -73,8 +74,13 @@
            opacity="0"
            loop="false"></video>
   </a-assets> 
-
+  <a-entity id="texts" 
+  position="1.8 0 -2"
+   text="value: Now loading...\n Don't click now.; color: white; opacity: 1" 
+   scale="5 5 1">
+  </a-entity>
   <a-entity id="camera" camera look-controls wasd-controls>
+    <!--
     <a-entity cursor="fuse: true;"
         position="0 0 -1"
         geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.02"
@@ -84,7 +90,8 @@
         <a-animation begin="cursor-fusing" easing="ease-in" attribute="scale" dur="1500"
            fill="backwards" from="1 1 1" to="0.1 0.1 0.1"></a-animation>
     </a-entity>
-  </a-entity>
+  -->
+</a-entity>
 
   <!--
   <a-entity link="href: https://naotoiijima.github.io/demo_sample/sample01/; title: Change Position; image: #nogi" position="0 1.2 -10"></a-entity>
@@ -111,10 +118,15 @@
   <a-videosphere src="#video2" rotation="0 -90 0" opacity="1"></a-videosphere>
   -->
 
-
 </a-scene>
+
 <script>
     var scene = document.querySelector('a-scene');
+    if (scene.hasLoaded) {
+      console.log("Yes")
+    } else {
+      console.log("No")
+    }
     var vid1 = document.createElement('a-videosphere');
     var vid2 = document.createElement('a-videosphere');
     vid1.setAttribute('src', '#video');
